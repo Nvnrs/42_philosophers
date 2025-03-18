@@ -7,7 +7,8 @@ INIT_DIR = $(SRC_DIR)/init
 SRC_UTILS = $(UTILS_DIR)/ft_atoi_ul.c \
 			$(UTILS_DIR)/ft_putstr.c \
 			$(UTILS_DIR)/ft_strlen.c \
-			$(UTILS_DIR)/tab.c
+			$(UTILS_DIR)/tab.c \
+			$(UTILS_DIR)/philo.c
 
 SRC_CHECKS = $(CHECKS_DIR)/checks.c \
 			$(CHECKS_DIR)/is_number.c
@@ -20,6 +21,8 @@ SRC_DEBUG = $(DEBUG_DIR)/colors.c \
 			$(DEBUG_DIR)/philo.c 
 
 SRC = $(SRC_DIR)/main.c \
+		$(SRC_DIR)/forks.c \
+		$(SRC_DIR)/threads.c \
 		$(SRC_UTILS) \
 		$(SRC_CHECKS) \
 		$(SRC_DEBUG) \

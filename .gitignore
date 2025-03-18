@@ -1,0 +1,4 @@
+*.o
+/philo/obj/
+/philo/.vscode/
+/philo/philo

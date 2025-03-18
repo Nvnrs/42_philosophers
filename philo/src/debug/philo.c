@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:05:31 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/18 13:31:51 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:12:34 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	print_philo(t_philo *philo)
 	printf("~~ PHILO %d\n", philo->id);
 	black();
 	printf("-> id: %d\n", philo->id);
+	printf("-> start_delay: %d\n", philo->start_delay);
 	printf("-> time_to_die: %u\n", philo->time_to_die);
 	printf("-> time_to_eat: %u\n", philo->time_to_eat);
 	printf("-> time_to_sleep: %u\n", philo->time_to_sleep);
@@ -36,7 +37,6 @@ void	print_philos(t_philo **philos)
 	while (philos[i])
 	{
 		print_philo(philos[i]);
-		break;
 		i++;
 	}
 	reset();
