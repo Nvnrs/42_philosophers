@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:58:51 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 03:29:23 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 09:11:30 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_table	*init_table(int argc, char **argv)
 	else
 		table->required_eats_per_philo = 0;
 	table->forks = init_forks(table);
-	table->time_since_start = 0;
+	table->time_at_start = get_time_in_milliescondes();
+	pthread_mutex_init(&table->write_access, NULL);
 	return (table);
 }

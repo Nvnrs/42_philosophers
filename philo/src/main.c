@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:14 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 03:30:39 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 09:22:19 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,25 @@ void	monitor(t_table *table, t_philo **philos, int *states_philos)
 
 	i = 0;
 	(void)table;
+	(void)states_philos;
 	while (philos[i])
 	{
 		state = philos[i]->state;
 		if (philos_have_eaten(table, philos))
 			exit(1);
-		if (state != states_philos[i])
-		{
-			printf("timestamp in ms ");
-			printf("%d ", philos[i]->id);
-			if (state == SLEEP)
-				printf("is sleeping");
-			if (state == EAT)
-				printf("is eating");
-			if (state == THINK)
-				printf("is thinking");
-			printf("\n");
-			states_philos[i] = state;
-		}
+		// if (state != states_philos[i])
+		// {
+		// 	printf("timestamp in ms ");
+		// 	printf("%d ", philos[i]->id);
+		// 	if (state == SLEEP)
+		// 		printf("is sleeping");
+		// 	if (state == EAT)
+		// 		printf("is eating");
+		// 	if (state == THINK)
+		// 		printf("is thinking");
+		// 	printf("\n");
+		// 	states_philos[i] = state;
+		// }
 		if (is_last_philo(philos, i))
 			i = 0;
 		else
@@ -98,9 +99,16 @@ void	print_tab_state(int *tab, int max)
 	reset();
 }
 
+unsigned long	get_time_in_milliescondes()
+{
+	struct timeval time;
+	gettimeofday(&time , NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
 int	main(int argc, char **argv)
 {
-	int		*copy_state_philos;
+	// int		*copy_state_philos;
 	t_philo	**philos;
 	t_table	*table;
 
@@ -108,22 +116,22 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	table = init_table(argc, argv);
 	philos = init_philos(table, argv);
-	copy_state_philos = state_of_philo_to_tab(philos);
+	// copy_state_philos = state_of_philo_to_tab(philos);
 	add_start_delay_philos(philos);
 	assign_forks(table, philos);
-	print_tab_state(copy_state_philos, table->number_of_philo);
 	// create thread
 	create_threads(philos);
 	
 	// monitor
-	monitor(table, philos, copy_state_philos);
-	
+	// monitor(table, philos, copy_state_philos);
+
+
 	
 	// join threads
 	join_threads(philos);
 
-	// print_table(table);
-	// print_philos(philos);
+	print_table(table);
+	print_philos(philos);
 	free_philos(philos);
 	free_table(table);
 	return (EXIT_SUCCESS);

@@ -6,11 +6,26 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:32:07 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 03:25:35 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 09:33:59 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	print_message(t_state state, t_philo *philo)
+{
+	unsigned long current_time;
+
+	current_time = get_time_in_milliescondes() - philo->table->time_at_start;
+	// pthread_mutex_lock(&philo->table->write_access);
+	if (state == SLEEP)
+		printf(SLEEP_MESSAGE, current_time, philo->id);
+	if (state == EAT)
+		printf(EAT_MESSAGE, current_time, philo->id);
+	if (state == THINK)
+		printf(THINK_MESSAGE, current_time, philo->id);
+	// pthread_mutex_unlock(&philo->table->write_access);
+}
 
 void	eat(t_philo *philo)
 {
@@ -20,8 +35,9 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(philo->fork_left);
 	pthread_mutex_lock(philo->fork_right);
 	philo->state = EAT;
-	philo->count_eat++;
+	print_message(EAT, philo);
 	usleep(time);
+	philo->count_eat++;
 	pthread_mutex_unlock(philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
 }
@@ -31,7 +47,9 @@ void	action(unsigned long action_time, t_state action, t_philo *philo)
 	unsigned	long time;
 
 	time = action_time * 1000;
+	printf("action %d -> value :%lu\n", action, time);
 	philo->state = action;
+	print_message(action, philo);
 	usleep(time);
 }
 
@@ -48,7 +66,6 @@ void	*routine(void	*philo_void)
 		eat(philo);
 		action(philo->time_to_sleep, SLEEP, philo);
 	}
-	
 	return (NULL);
 }
 
@@ -76,7 +93,7 @@ void	join_threads(t_philo **philos)
 		pthread_join(philos[i]->thread, NULL);
 		i++;
 	}
-}
+} 
 
 void	add_start_delay_philos(t_philo **philos)
 {
@@ -92,7 +109,7 @@ void	add_start_delay_philos(t_philo **philos)
 		{
 			philos[i]->start_delay = (philos[i]->time_to_eat * 2);
 		}
-		else if (i % 2 != 0)
+		if (i % 2 != 0)
 		{
 			philos[i]->start_delay = philos[i]->time_to_eat;
 		}

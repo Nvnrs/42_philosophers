@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 03:29:16 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 09:18:59 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 #define PHILO_H
 
 #define MAX_UI 	4294967295
+#define	EAT_MESSAGE "%lu %d is eating\n"
+#define	SLEEP_MESSAGE "%lu %d is sleeping\n"
+#define	THINK_MESSAGE "%lu %d is thinking\n"
+
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <pthread.h>
+#include <sys/time.h>
 
 typedef enum e_bool {
 	FALSE,
@@ -35,7 +40,8 @@ typedef struct s_table
 	pthread_mutex_t	**forks;
 	unsigned int	number_of_philo;
 	unsigned int	required_eats_per_philo;
-	unsigned int	time_since_start;
+	unsigned long	time_at_start;
+	pthread_mutex_t write_access;
 }	t_table;
 
 typedef struct s_philo
@@ -66,9 +72,9 @@ void	create_threads(t_philo **philos);
 void	join_threads(t_philo **philos);
 
 // DEBUG
-void cyan();
-void black();
-void reset();
+void	cyan();
+void	black();
+void	reset();
 void	print_table(t_table *table);
 void	print_philos(t_philo **philos);
 void	print_philo(t_philo *philo);
@@ -87,5 +93,8 @@ t_bool	check_input(int argc, char **argv);
 
 // SRC
 void	assign_forks(t_table *table, t_philo **philos);
+unsigned long	get_time_in_milliescondes();
 
+// MAIN 
+t_bool	philos_have_eaten(t_table *table, t_philo **philos);
 #endif
