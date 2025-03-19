@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/18 14:35:41 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 03:29:16 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ typedef enum e_state {
 	THINK,
 }	t_state;
 
+typedef struct s_table
+{
+	pthread_mutex_t	**forks;
+	unsigned int	number_of_philo;
+	unsigned int	required_eats_per_philo;
+	unsigned int	time_since_start;
+}	t_table;
+
 typedef struct s_philo
 {
 	pthread_t		thread;
@@ -42,16 +50,9 @@ typedef struct s_philo
 	unsigned int	time_to_sleep;
 	unsigned int	count_eat;
 	int				state;
-	
+	t_table			*table;
 }	t_philo;
 
-typedef struct s_table
-{
-	pthread_mutex_t	**forks;
-	unsigned int	number_of_philo;
-	unsigned int	required_eats_per_philo;
-	unsigned int	time_since_start;
-}	t_table;
 
 // INIT
 t_table	*init_table(int argc, char **argv);

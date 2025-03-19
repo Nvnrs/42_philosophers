@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:40:29 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/18 14:00:23 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 00:29:22 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@ void	assign_forks(t_table *table, t_philo **philos)
 			else
 				philos[i]->fork_left = table->forks[i - 1];
 			philos[i]->fork_right = table->forks[i];
-			// printf("fork_left : %s", i - 1);
+			// printf("fork_left : %d", i - 1);
 			// printf("fork_right : %d", i);
 			i++;
 			continue ;
 		}
-		// printf("fork_right : %d\n", i); 
-		// printf("fork_left : %d\n", i + 1);
+		// printf("fork_left : %d\n", i);
+		// printf("fork_right : %d\n", i + 1); 
 		philos[i]->fork_left =  table->forks[i];
 		if (is_last_philo(philos, i))
-			philos[i]->fork_right = NULL;
+			philos[i]->fork_right = table->forks[0];
 		else
 			philos[i]->fork_right = table->forks[i + 1];
 		

@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:32:07 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/18 14:57:05 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 03:25:35 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,19 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(philo->fork_left);
 	pthread_mutex_lock(philo->fork_right);
 	philo->state = EAT;
+	philo->count_eat++;
 	usleep(time);
 	pthread_mutex_unlock(philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
+}
+
+void	action(unsigned long action_time, t_state action, t_philo *philo)
+{
+	unsigned	long time;
+
+	time = action_time * 1000;
+	philo->state = action;
+	usleep(time);
 }
 
 void	*routine(void	*philo_void)
@@ -30,10 +40,15 @@ void	*routine(void	*philo_void)
 	t_philo	*philo;
 
 	philo = philo_void;
-	printf("HELLO FROM thread %d\n", philo->id);
-	// philo->state = THINK;
-	eat(philo);
-	// philo->state = SLEEP;
+	// printf("HELLO FROM thread %d\n", philo->id);
+	while (1)
+	{
+		philo->state = THINK;
+		action(0, THINK, philo);
+		eat(philo);
+		action(philo->time_to_sleep, SLEEP, philo);
+	}
+	
 	return (NULL);
 }
 
@@ -49,7 +64,6 @@ void	create_threads(t_philo **philos)
 			routine, philos[i]);
 		i++;
 	}
-	
 }
 
 void	join_threads(t_philo **philos)
@@ -73,7 +87,7 @@ void	add_start_delay_philos(t_philo **philos)
 		return;
 	while (philos[i])
 	{
-		if (is_last_philo(philos, i)
+		if (is_last_philo(philos, i)				
 		&& len_tab((void **)philos) % 2 != 0)
 		{
 			philos[i]->start_delay = (philos[i]->time_to_eat * 2);

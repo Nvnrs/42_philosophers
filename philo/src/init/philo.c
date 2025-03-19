@@ -6,13 +6,13 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:05:59 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/18 14:11:30 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 03:28:50 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-t_philo *init_philo(char **argv, int index)
+t_philo *init_philo(t_table *table, char **argv, int index)
 {
 	t_philo	*philo;
 
@@ -26,6 +26,7 @@ t_philo *init_philo(char **argv, int index)
 	philo->time_to_sleep = ft_atoi_ul(argv[4]);
 	philo->count_eat = 0;
 	philo->state = -1;
+	philo->table = table;
 	return (philo);
 }
 
@@ -38,7 +39,7 @@ t_philo **init_philos(t_table *table, char **argv)
 	philos = malloc((table->number_of_philo + 1) * sizeof(t_philo*));
 	while (i < table->number_of_philo)
 	{
-		philos[i] = init_philo(argv, i);
+		philos[i] = init_philo(table, argv, i);
 		i++;
 	}
 	philos[i] = NULL;
