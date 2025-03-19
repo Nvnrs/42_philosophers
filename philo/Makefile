@@ -23,6 +23,7 @@ SRC_DEBUG = $(DEBUG_DIR)/colors.c \
 SRC = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/forks.c \
 		$(SRC_DIR)/threads.c \
+		$(SRC_DIR)/sleep.c \
 		$(SRC_UTILS) \
 		$(SRC_CHECKS) \
 		$(SRC_DEBUG) \

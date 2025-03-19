@@ -6,46 +6,11 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:32:07 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 20:18:45 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 21:22:04 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-t_bool	philo_is_dead(t_philo *philo)
-{
-	unsigned	long time_since_last_eat;
-
-	return FALSE;
-	time_since_last_eat = (philo->time_last_eat - philo->table->time_at_start);
-	print_philo(philo);
-	// printf("TIME _SINCE _LAST EAT : %lu\n", time_since_last_eat);
-	if (time_since_last_eat >= philo->time_to_die)
-	{
-		philo->state = DEAD;
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-
-t_status	custom_sleep(long time, t_philo *philo)
-{
-	int remove;
-
-	remove = 1;
-	(void)philo;
-	// printf("TIME %ld\n", time);
-	usleep(time);
-	// while (time >= 0)
-	// {
-	// 	if (philo_is_dead(philo))
-	// 		return (FAIL);
-	// 	usleep(remove);
-	// 	time -= remove;
-	// }
-	return (SUCCESS);
-}
 
 void	print_message(t_state state, t_philo *philo)
 {
@@ -61,6 +26,8 @@ void	print_message(t_state state, t_philo *philo)
 		printf(THINK_MESSAGE, current_time, philo->id);
 	if (state == FORK)
 		printf(FORK_MESSAGE, current_time, philo->id);
+	if (state == DEAD)
+		printf(DEAD_MESSAGE, current_time, philo->id);
 	pthread_mutex_unlock(&philo->table->write_access);
 }
 
@@ -94,14 +61,9 @@ t_status	action(unsigned long action_time, t_state action, t_philo *philo)
 	time = action_time * 1000;
 	philo->state = action;
 	print_message(action, philo);
-	// if (time  > 0)
-	// {
-	usleep(time);
-	// if (custom_sleep(time, philo) != SUCCESS
-	//  && philo->state == DEAD)
-	// {
-	// 	// return (FAIL);
-	// }
+	// usleep(time);
+	if (custom_sleep(time, philo) != SUCCESS)
+		return (FAIL);
 	return (SUCCESS);
 }
 
@@ -129,6 +91,8 @@ void	*routine(void	*philo_void)
 			*status = eat(philo);
 			*status = action(philo->time_to_sleep, SLEEP, philo);
 		}
+		if (philo->fork_left == NULL || philo->fork_right == NULL)
+			*status = FAIL;
 		if (*status == FAIL)
 			return (status);
 	}
@@ -152,14 +116,18 @@ void	create_threads(t_philo **philos)
 void	join_threads(t_philo **philos)
 {
 	int	i;
-	int	**return_val;
+	int	*return_val;
 
 	i = 0;
-	return_val = NULL;
 	while (philos[i])
 	{
-		pthread_join(philos[i]->thread, (void **)return_val);
-		free(*return_val);
+		pthread_join(philos[i]->thread, (void **)&return_val);
+		if (*return_val == FAIL)
+		{
+			print_message(DEAD, philos[i]);
+			printf("fail\n");
+		}
+		free((void *)return_val);
 		i++;
 	}
 } 

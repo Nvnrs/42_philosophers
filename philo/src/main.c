@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:14 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 20:10:31 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 21:30:15 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,7 @@ int	main(int argc, char **argv)
 
 
 	join_threads(philos);
+	free_philos(philos);
+	free_table(table);
 	return (EXIT_SUCCESS);
 }

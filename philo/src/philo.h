@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 16:12:50 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 21:22:45 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #define	SLEEP_MESSAGE "%lu %d is sleeping\n"
 #define	THINK_MESSAGE "%lu %d is thinking\n"
 #define	FORK_MESSAGE "%lu %d has taken a fork\n"
+#define	DEAD_MESSAGE "%lu %d died\n"
 
 # include <stdlib.h>
 # include <stdio.h>
@@ -96,6 +97,9 @@ void			ft_putstr_fd(char *str, int fd);
 int				ft_strlen(char *str);
 int				len_tab(void **tab);
 t_bool	is_last_philo(t_philo **philos, int i);
+t_bool	philo_is_dead(t_philo *philo);
+
+t_status	custom_sleep(long time, t_philo *philo);
 
 // CHECKS
 t_bool	is_in_range_of_unsigned_int(char *str);
@@ -105,6 +109,7 @@ t_bool	check_input(int argc, char **argv);
 // SRC
 void	assign_forks(t_table *table, t_philo **philos);
 unsigned long	get_time_in_milliescondes();
+
 
 // MAIN 
 t_bool	philos_have_eaten(t_table *table, t_philo **philos);
