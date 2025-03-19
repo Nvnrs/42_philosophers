@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:00:33 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 21:02:26 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 23:37:29 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ t_bool	philo_is_dead(t_philo *philo)
 {
 	unsigned	long time_since_last_eat;
 
-	return FALSE;
-	time_since_last_eat = (philo->time_last_eat - philo->table->time_at_start);
+	time_since_last_eat = (get_time_in_milliescondes() - philo->time_last_eat);
 	// print_philo(philo);
 	// printf("TIME _SINCE _LAST EAT : %lu\n", time_since_last_eat);
 	if (time_since_last_eat >= philo->time_to_die)

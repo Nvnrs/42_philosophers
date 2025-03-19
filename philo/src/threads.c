@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:32:07 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 21:22:04 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 23:30:36 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,7 @@ t_status	eat(t_philo *philo)
 	philo->state = EAT;
 	philo->time_last_eat = get_time_in_milliescondes();
 	print_message(EAT, philo);
-	if (custom_sleep(time, philo) != SUCCESS)
-	{
-		pthread_mutex_unlock(philo->fork_left);
-		pthread_mutex_unlock(philo->fork_right);
-		return (FAIL);
-	}
+	usleep(time);
 	philo->count_eat++;
 	pthread_mutex_unlock(philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
@@ -61,8 +56,7 @@ t_status	action(unsigned long action_time, t_state action, t_philo *philo)
 	time = action_time * 1000;
 	philo->state = action;
 	print_message(action, philo);
-	// usleep(time);
-	if (custom_sleep(time, philo) != SUCCESS)
+	if (custom_sleep(time, philo, TRUE) != SUCCESS)
 		return (FAIL);
 	return (SUCCESS);
 }
@@ -79,9 +73,7 @@ void	*routine(void	*philo_void)
 	philo->time_last_eat = get_time_in_milliescondes();
 	while (1)
 	{
-		// if (action(0, THINK, philo) != SUCCESS)
 		*status = action(0, THINK, philo);
-		// exit(0);
 		if (*status == SUCCESS && philo->fork_left != NULL)
 			*status = action(0, FORK, philo);
 		if (*status == SUCCESS && philo->fork_right != NULL)
@@ -125,7 +117,6 @@ void	join_threads(t_philo **philos)
 		if (*return_val == FAIL)
 		{
 			print_message(DEAD, philos[i]);
-			printf("fail\n");
 		}
 		free((void *)return_val);
 		i++;

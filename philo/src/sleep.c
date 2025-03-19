@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:25:08 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 21:25:37 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 23:28:06 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ long	get_remove_val(long time)
 	return (remove);
 }
 
-t_status	custom_sleep(long time, t_philo *philo)
+t_status	custom_sleep(long time, t_philo *philo, t_bool	check_dead)
 {
 	long remove;
 
 	while (time > 0)
 	{
-		if (philo_is_dead(philo))
+		if (check_dead && philo_is_dead(philo))
 			return (FAIL);
 		remove = get_remove_val(time);
 		usleep(remove);
