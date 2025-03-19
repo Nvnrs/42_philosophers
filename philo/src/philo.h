@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 09:18:59 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:12:50 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #define	EAT_MESSAGE "%lu %d is eating\n"
 #define	SLEEP_MESSAGE "%lu %d is sleeping\n"
 #define	THINK_MESSAGE "%lu %d is thinking\n"
+#define	FORK_MESSAGE "%lu %d has taken a fork\n"
 
 # include <stdlib.h>
 # include <stdio.h>
@@ -29,10 +30,18 @@ typedef enum e_bool {
 	TRUE
 } t_bool;
 
+typedef enum e_status {
+	SUCCESS,
+	FAIL,
+	STOP
+} t_status;
+
 typedef enum e_state {
 	SLEEP,
 	EAT,
 	THINK,
+	FORK,
+	DEAD,
 }	t_state;
 
 typedef struct s_table
@@ -47,7 +56,9 @@ typedef struct s_table
 typedef struct s_philo
 {
 	pthread_t		thread;
+	// t_bool			end__thread;
 	unsigned int	start_delay;
+	unsigned long	time_last_eat;
 	unsigned int	id;
 	pthread_mutex_t *fork_left;
 	pthread_mutex_t *fork_right;

@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:05:31 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/18 14:12:34 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:03:08 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	print_philo(t_philo *philo)
 	printf("-> time_to_sleep: %u\n", philo->time_to_sleep);
 	printf("-> count_eat: %d\n", philo->count_eat);
 	printf("-> state: %d\n", philo->state);
+	printf("-> last_eat: %lu\n", philo->time_last_eat);
 	reset();
 }
 

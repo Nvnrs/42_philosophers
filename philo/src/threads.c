@@ -6,28 +6,65 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:32:07 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 09:33:59 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 19:59:29 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+t_bool	philo_is_dead(t_philo *philo)
+{
+	unsigned	long time_since_last_eat;
+
+	return FALSE;
+	time_since_last_eat = (philo->time_last_eat - philo->table->time_at_start);
+	print_philo(philo);
+	// printf("TIME _SINCE _LAST EAT : %lu\n", time_since_last_eat);
+	if (time_since_last_eat >= philo->time_to_die)
+	{
+		philo->state = DEAD;
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+
+t_status	custom_sleep(long time, t_philo *philo)
+{
+	int remove;
+
+	remove = 1;
+	(void)philo;
+	// printf("TIME %ld\n", time);
+	usleep(time);
+	// while (time >= 0)
+	// {
+	// 	if (philo_is_dead(philo))
+	// 		return (FAIL);
+	// 	usleep(remove);
+	// 	time -= remove;
+	// }
+	return (SUCCESS);
+}
+
 void	print_message(t_state state, t_philo *philo)
 {
 	unsigned long current_time;
 
+	pthread_mutex_lock(&philo->table->write_access);
 	current_time = get_time_in_milliescondes() - philo->table->time_at_start;
-	// pthread_mutex_lock(&philo->table->write_access);
 	if (state == SLEEP)
 		printf(SLEEP_MESSAGE, current_time, philo->id);
 	if (state == EAT)
 		printf(EAT_MESSAGE, current_time, philo->id);
 	if (state == THINK)
 		printf(THINK_MESSAGE, current_time, philo->id);
-	// pthread_mutex_unlock(&philo->table->write_access);
+	if (state == FORK)
+		printf(FORK_MESSAGE, current_time, philo->id);
+	pthread_mutex_unlock(&philo->table->write_access);
 }
 
-void	eat(t_philo *philo)
+t_status	eat(t_philo *philo)
 {
 	unsigned	long time;
 
@@ -35,39 +72,69 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(philo->fork_left);
 	pthread_mutex_lock(philo->fork_right);
 	philo->state = EAT;
+	philo->time_last_eat = get_time_in_milliescondes();
 	print_message(EAT, philo);
-	usleep(time);
+	if (custom_sleep(time, philo) != SUCCESS)
+	{
+		pthread_mutex_unlock(philo->fork_left);
+		pthread_mutex_unlock(philo->fork_right);
+		return (FAIL);
+	}
 	philo->count_eat++;
 	pthread_mutex_unlock(philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
+	return (SUCCESS);
 }
 
-void	action(unsigned long action_time, t_state action, t_philo *philo)
+
+t_status	action(unsigned long action_time, t_state action, t_philo *philo)
 {
-	unsigned	long time;
+	long time;
 
 	time = action_time * 1000;
-	printf("action %d -> value :%lu\n", action, time);
 	philo->state = action;
 	print_message(action, philo);
+	// if (time  > 0)
+	// {
 	usleep(time);
+	// if (custom_sleep(time, philo) != SUCCESS
+	//  && philo->state == DEAD)
+	// {
+	// 	// return (FAIL);
+	// }
+	return (SUCCESS);
 }
 
 void	*routine(void	*philo_void)
 {
 	t_philo	*philo;
+	int		*status;
 
 	philo = philo_void;
-	// printf("HELLO FROM thread %d\n", philo->id);
+	status = malloc(sizeof(int));
+	*status = SUCCESS;
+	usleep(philo->start_delay * 1000);
+	philo->time_last_eat = get_time_in_milliescondes();
 	while (1)
 	{
-		philo->state = THINK;
-		action(0, THINK, philo);
-		eat(philo);
-		action(philo->time_to_sleep, SLEEP, philo);
+		// if (action(0, THINK, philo) != SUCCESS)
+		*status = action(0, THINK, philo);
+		// exit(0);
+		if (*status == SUCCESS && philo->fork_left != NULL)
+			*status = action(0, FORK, philo);
+		if (*status == SUCCESS && philo->fork_right != NULL)
+			*status = action(0, FORK, philo);
+		if (*status == SUCCESS &&  philo->fork_left && philo->fork_right)
+		{
+			*status = eat(philo);
+			*status = action(philo->time_to_sleep, SLEEP, philo);
+		}
+		if (*status == FAIL)
+			return (status);
 	}
-	return (NULL);
+	return (status);
 }
+
 
 void	create_threads(t_philo **philos)
 {
@@ -76,9 +143,8 @@ void	create_threads(t_philo **philos)
 	i = 0;
 	while (philos[i])
 	{
-		usleep(philos[i]->start_delay * 1000);
 		pthread_create(&philos[i]->thread, NULL,
-			routine, philos[i]);
+				routine, philos[i]);
 		i++;
 	}
 }
@@ -86,11 +152,14 @@ void	create_threads(t_philo **philos)
 void	join_threads(t_philo **philos)
 {
 	int	i;
+	int	**return_val;
 
 	i = 0;
+	return_val = NULL;
 	while (philos[i])
 	{
-		pthread_join(philos[i]->thread, NULL);
+		pthread_join(philos[i]->thread, (void **)return_val);
+		free(*return_val);
 		i++;
 	}
 } 

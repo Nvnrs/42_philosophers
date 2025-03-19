@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:14 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 09:22:19 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:37:35 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,21 @@ t_bool	philos_have_eaten(t_table *table, t_philo **philos)
 	
 // }
 
-void	monitor(t_table *table, t_philo **philos, int *states_philos)
+void	monitor(t_table *table, t_philo **philos)
 {
 	int	i;
 	int state;
 
 	i = 0;
 	(void)table;
-	(void)states_philos;
-	while (philos[i])
+	while (1)
 	{
 		state = philos[i]->state;
 		if (philos_have_eaten(table, philos))
+		{
+			print_philos(philos);
 			exit(1);
+		}
 		// if (state != states_philos[i])
 		// {
 		// 	printf("timestamp in ms ");
@@ -108,7 +110,6 @@ unsigned long	get_time_in_milliescondes()
 
 int	main(int argc, char **argv)
 {
-	// int		*copy_state_philos;
 	t_philo	**philos;
 	t_table	*table;
 
@@ -116,23 +117,17 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	table = init_table(argc, argv);
 	philos = init_philos(table, argv);
-	// copy_state_philos = state_of_philo_to_tab(philos);
-	add_start_delay_philos(philos);
+
+	print_philos(philos);
+	print_table(table);
 	assign_forks(table, philos);
 	// create thread
 	create_threads(philos);
 	
 	// monitor
-	// monitor(table, philos, copy_state_philos);
+	// monitor(table, philos);
 
 
-	
-	// join threads
 	join_threads(philos);
-
-	print_table(table);
-	print_philos(philos);
-	free_philos(philos);
-	free_table(table);
 	return (EXIT_SUCCESS);
 }

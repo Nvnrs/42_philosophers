@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:05:59 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 03:28:50 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:12:38 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_philo *init_philo(t_table *table, char **argv, int index)
 		return (NULL);
 	philo->id = index + 1;
 	philo->start_delay = 0;
+	philo->time_last_eat = 0;
 	philo->time_to_die = ft_atoi_ul(argv[2]);
 	philo->time_to_eat = ft_atoi_ul(argv[3]);
 	philo->time_to_sleep = ft_atoi_ul(argv[4]);
