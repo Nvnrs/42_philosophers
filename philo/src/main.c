@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:14 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/21 14:20:22 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:10:06 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@ t_bool	philos_have_eaten(t_table *table, t_philo **philos)
 
 	i = 0;
 	philo_validate_meal = 0;
+	if (table->required_eats_per_philo < 0)
+		return (FALSE);
 	while (philos[i])
 	{
+		pthread_mutex_lock(&philos[i]->mutex_count_eat);
 		if (philos[i]->count_eat >= table->required_eats_per_philo)
 			philo_validate_meal++;
+		pthread_mutex_unlock(&philos[i]->mutex_count_eat);
 		i++;
 	}
 	if (philo_validate_meal == table->number_of_philo)
@@ -40,17 +44,19 @@ t_bool	philos_have_eaten(t_table *table, t_philo **philos)
 void	monitor(t_table *table, t_philo **philos)
 {
 	int	i;
-	int state;
+	// int state;
 
 	i = 0;
-	(void)table;
+	// (void)table;
 	while (1)
 	{
-		state = philos[i]->state;
+		// state = philos[i]->state;
 		if (philos_have_eaten(table, philos))
 		{
-			print_philos(philos);
-			exit(1);
+			// print_philos(philos);
+			pthread_mutex_lock(&table->mutex_end);
+			table->end_simulation = TRUE;
+			pthread_mutex_unlock(&table->mutex_end);
 		}
 		// if (state != states_philos[i])
 		// {
@@ -71,35 +77,6 @@ void	monitor(t_table *table, t_philo **philos)
 			i++;
 	}
 }
-int	*state_of_philo_to_tab(t_philo **philos)
-{
-	int *tab;
-	int	i;
-
-	i = 0;
-	tab = malloc(len_tab(((void**)philos)) * sizeof(int));
-	while (philos[i])
-	{
-		tab[i] = philos[i]->state;
-		i++;
-	}
-	return (tab);
-}
-void	print_tab_state(int *tab, int max)
-{
-	int	i;
-
-	i = 0;
-	cyan();
-	printf("______TAB OF STATES PHILO______\n");
-	black();
-	while (i < max)
-	{
-		printf("-> tab[%d]: %d\n", i, tab[i]);
-		i++;
-	}
-	reset();
-}
 
 unsigned long	get_time_in_milliescondes()
 {
@@ -117,7 +94,7 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	table = init_table(argc, argv);
 	philos = init_philos(table, argv);
-
+	add_start_delay_philos(philos);
 	print_philos(philos);
 	print_table(table);
 	assign_forks(table, philos);
@@ -128,7 +105,7 @@ int	main(int argc, char **argv)
 	// monitor(table, philos);
 
 
-	join_threads(philos);
+	join_threads(philos, table);
 	free_philos(philos);
 	free_table(table);
 	return (EXIT_SUCCESS);

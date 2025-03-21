@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:25:08 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/21 14:18:42 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:01:53 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ t_status	sleep_and_check_dead(long time_action, t_philo *philo, t_bool check_dea
 	if (check_dead && philo_is_dead_pending_action(philo, time_action))
 	{
 		usleep(philo->time_to_die * 1000);
-		return (FAIL);
+		return (THREAD_DEAD);
 	}
 	usleep(time_action * 1000);
-	return (SUCCESS);
+	return (THREAD_SUCCESS);
 }
 
 // int	main(void)

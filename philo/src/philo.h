@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/21 14:14:45 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:56:14 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,31 @@ typedef enum e_bool {
 } t_bool;
 
 typedef enum e_status {
-	SUCCESS,
-	FAIL,
-	STOP
+	THREAD_SUCCESS,
+	THREAD_DEAD,
+	THREAD_END
 } t_status;
 
-typedef enum e_state {
+typedef enum e_action {
 	SLEEP,
 	EAT,
 	THINK,
 	FORK,
 	DEAD,
-}	t_state;
+}	t_action;
 
 typedef struct s_table
 {
 	pthread_mutex_t	**forks;
 	unsigned int	number_of_philo;
-	unsigned int	required_eats_per_philo;
+	int	required_eats_per_philo;
 	unsigned long	time_at_start;
 	pthread_mutex_t write_access;
+	pthread_mutex_t mutex_end;
+	t_bool			end_simulation;
+	// addons tests
+	int 			count_eat;
+	pthread_mutex_t mutex_count_eat;
 }	t_table;
 
 typedef struct s_philo
@@ -66,7 +71,8 @@ typedef struct s_philo
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
-	unsigned int	count_eat;
+	int	count_eat;
+	pthread_mutex_t mutex_count_eat;
 	int				state;
 	t_table			*table;
 }	t_philo;
@@ -81,7 +87,7 @@ void	free_table(t_table *table);
 // THREADS
 void	add_start_delay_philos(t_philo **philos);
 void	create_threads(t_philo **philos);
-void	join_threads(t_philo **philos);
+void	join_threads(t_philo **philos, t_table *table);
 
 // DEBUG
 void	cyan();

@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:58:51 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 09:11:30 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:29:50 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,12 @@ t_table	*init_table(int argc, char **argv)
 	if (argv[5])
 		table->required_eats_per_philo = ft_atoi_ul(argv[5]);
 	else
-		table->required_eats_per_philo = 0;
+		table->required_eats_per_philo = -1;
 	table->forks = init_forks(table);
 	table->time_at_start = get_time_in_milliescondes();
+	table->end_simulation = FALSE;
+	table->count_eat = 0;
 	pthread_mutex_init(&table->write_access, NULL);
+	pthread_mutex_init(&table->mutex_count_eat, NULL);
 	return (table);
 }
