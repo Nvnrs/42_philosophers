@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:32:07 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 23:30:36 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:04:09 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,20 @@ void	print_message(t_state state, t_philo *philo)
 
 t_status	eat(t_philo *philo)
 {
-	unsigned	long time;
+	// unsigned	long time;
 
-	time = philo->time_to_eat * 1000;
+	// time = philo->time_to_eat * 1000;
 	pthread_mutex_lock(philo->fork_left);
 	pthread_mutex_lock(philo->fork_right);
 	philo->state = EAT;
 	philo->time_last_eat = get_time_in_milliescondes();
 	print_message(EAT, philo);
-	usleep(time);
+	if (custom_sleep(philo->time_to_eat, philo, TRUE) != SUCCESS)
+	{
+		pthread_mutex_unlock(philo->fork_left);
+		pthread_mutex_unlock(philo->fork_right);
+		return (FAIL);
+	}
 	philo->count_eat++;
 	pthread_mutex_unlock(philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
@@ -51,13 +56,16 @@ t_status	eat(t_philo *philo)
 
 t_status	action(unsigned long action_time, t_state action, t_philo *philo)
 {
-	long time;
+	// long time;
 
-	time = action_time * 1000;
+	// time = action_time * 1000;
 	philo->state = action;
 	print_message(action, philo);
-	if (custom_sleep(time, philo, TRUE) != SUCCESS)
+	if (custom_sleep(action_time, philo, TRUE) != SUCCESS)
 		return (FAIL);
+		// usleep(time);
+	// if (philo_is_dead(philo))
+	// 	return (FAIL);
 	return (SUCCESS);
 }
 
@@ -81,6 +89,9 @@ void	*routine(void	*philo_void)
 		if (*status == SUCCESS &&  philo->fork_left && philo->fork_right)
 		{
 			*status = eat(philo);
+		}
+		if (*status == SUCCESS &&  philo->fork_left && philo->fork_right)
+		{
 			*status = action(philo->time_to_sleep, SLEEP, philo);
 		}
 		if (philo->fork_left == NULL || philo->fork_right == NULL)

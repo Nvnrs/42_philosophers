@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:25:08 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/19 23:28:06 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:03:34 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,37 @@ long	get_remove_val(long time)
 	return (remove);
 }
 
-t_status	custom_sleep(long time, t_philo *philo, t_bool	check_dead)
+t_bool	philo_is_dead_pending_action(t_philo *philo, long time_action)
 {
-	long remove;
+	unsigned	long time_since_last_eat;
 
-	while (time > 0)
+	time_since_last_eat = (get_time_in_milliescondes() - philo->time_last_eat);
+	// printf("TIME _SINCE _LAST EAT : %lu\n", time_since_last_eat);
+	black();
+	printf("tinme action %ld\n", time_action);
+	printf("since last eat %ld\n", time_since_last_eat);
+	printf("lat + time : %ld\n", time_action + time_since_last_eat);
+	printf("lat + time : %ld\n", time_action + time_since_last_eat);
+	reset();
+	if ((time_since_last_eat + time_action) > philo->time_to_die)
 	{
-		if (check_dead && philo_is_dead(philo))
-			return (FAIL);
-		remove = get_remove_val(time);
-		usleep(remove);
-		// printf("time %ld\n", time);
-		// printf("remove time %ld\n", remove);
-		time -= remove;
+		philo->state = DEAD;
+		return (TRUE);
 	}
+	return (FALSE);
+}
+
+t_status	custom_sleep(long time_action, t_philo *philo, t_bool check_dead)
+{
+
+	if (check_dead && philo_is_dead(philo))
+			return (FAIL);
+	if (check_dead && philo_is_dead_pending_action(philo, time_action))
+	{
+		usleep(philo->time_to_die * 1000);
+		return (FAIL);
+	}
+	usleep(time_action * 1000);
 	return (SUCCESS);
 }
 
