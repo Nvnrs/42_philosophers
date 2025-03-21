@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:32:07 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/21 14:04:09 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:20:20 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_status	eat(t_philo *philo)
 	philo->state = EAT;
 	philo->time_last_eat = get_time_in_milliescondes();
 	print_message(EAT, philo);
-	if (custom_sleep(philo->time_to_eat, philo, TRUE) != SUCCESS)
+	if (sleep_and_check_dead(philo->time_to_eat, philo, TRUE) != SUCCESS)
 	{
 		pthread_mutex_unlock(philo->fork_left);
 		pthread_mutex_unlock(philo->fork_right);
@@ -61,7 +61,7 @@ t_status	action(unsigned long action_time, t_state action, t_philo *philo)
 	// time = action_time * 1000;
 	philo->state = action;
 	print_message(action, philo);
-	if (custom_sleep(action_time, philo, TRUE) != SUCCESS)
+	if (sleep_and_check_dead(action_time, philo, TRUE) != SUCCESS)
 		return (FAIL);
 		// usleep(time);
 	// if (philo_is_dead(philo))

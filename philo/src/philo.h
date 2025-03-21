@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/21 11:49:37 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:14:45 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,10 @@ void			ft_putstr_fd(char *str, int fd);
 int				ft_strlen(char *str);
 int				len_tab(void **tab);
 t_bool	is_last_philo(t_philo **philos, int i);
-t_bool	philo_is_dead(t_philo *philo);
 
-t_status	custom_sleep(long time_action, t_philo *philo, t_bool check_dead);
+
+// sleep
+t_status	sleep_and_check_dead(long time_action, t_philo *philo, t_bool check_dead);
 
 // CHECKS
 t_bool	is_in_range_of_unsigned_int(char *str);
