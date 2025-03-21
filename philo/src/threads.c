@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:32:07 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/21 18:39:39 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/21 19:16:54 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_bool	check_philos_have_eaten(t_table *table)
 	pthread_mutex_lock(&table->mutex_count_eat);
 	have_eaten = FALSE;
 	total_eats = table->required_eats_per_philo * (int)table->number_of_philo;
-	if (table->count_eat > total_eats)
+	if (table->count_eat == total_eats)
 		have_eaten = TRUE;
 	pthread_mutex_unlock(&table->mutex_count_eat);
 	return (have_eaten);
@@ -66,17 +66,24 @@ t_status	eat(t_philo *philo)
 
 	// unsigned	long time;
 	// time = philo->time_to_eat * 1000;
+
+	// if (simulation_has_ended(philo->table)
+	// 	|| check_philos_have_eaten(philo->table))
+	// 		return (THREAD_END);
 	pthread_mutex_lock(philo->fork_left);
 	pthread_mutex_lock(philo->fork_right);
+	if (simulation_has_ended(philo->table)
+		|| check_philos_have_eaten(philo->table))
+	{
+		pthread_mutex_unlock(philo->fork_left);
+		pthread_mutex_unlock(philo->fork_right);
+		return (THREAD_END);
+	}
 	philo->state = EAT;
 	philo->time_last_eat = get_time_in_milliescondes();
 	print_message(EAT, philo);
 	if (sleep_and_check_dead(philo->time_to_eat, philo, TRUE) != THREAD_SUCCESS)
-	{		
-		// if (simulation_has_ended(philo->table))
-		// 	return (THREAD_END);
-		// if (check_philos_have_eaten(philo->table))
-		// 	return (THREAD_END);
+	{
 		pthread_mutex_unlock(philo->fork_left);
 		pthread_mutex_unlock(philo->fork_right);
 		return (THREAD_DEAD);
@@ -92,23 +99,13 @@ t_status	eat(t_philo *philo)
 
 t_status	action(unsigned long action_time, t_action action, t_philo *philo)
 {
-	// long time;
-
-	// time = action_time * 1000;
-
+	if (simulation_has_ended(philo->table)
+	|| check_philos_have_eaten(philo->table))
+			return (THREAD_END);
 	philo->state = action;
 	print_message(action, philo);
 	if (sleep_and_check_dead(action_time, philo, TRUE) != THREAD_SUCCESS)
-	{
-		// if (simulation_has_ended(philo->table))
-		// 	return (THREAD_END);
-		// if (check_philos_have_eaten(philo->table))
-		// 	return (THREAD_END);
 		return (THREAD_DEAD);
-	}
-		// usleep(time);
-	// if (philo_is_dead(philo))
-	// 	return (THREAD_DEAD);
 	return (THREAD_SUCCESS);
 }
 
@@ -134,10 +131,14 @@ void	*routine(void	*philo_void)
 			*status = eat(philo);
 		if (*status == THREAD_SUCCESS &&  philo->fork_left && philo->fork_right)
 			*status = action(philo->time_to_sleep, SLEEP, philo);
-		
-		// if (status != )
-		// if (philo->fork_left == NULL || philo->fork_right == NULL)
-		// 	*status = THREAD_DEAD;
+		if (philo->fork_left == NULL || philo->fork_right == NULL)
+			*status = THREAD_DEAD;
+	}
+	if (*status != THREAD_SUCCESS)
+	{
+		if (simulation_has_ended(philo->table)
+		|| check_philos_have_eaten(philo->table))
+			*status = THREAD_END;
 	}
 	return (status);
 }
