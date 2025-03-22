@@ -3,6 +3,7 @@ UTILS_DIR = $(SRC_DIR)/utils
 CHECKS_DIR = $(SRC_DIR)/checks
 DEBUG_DIR = $(SRC_DIR)/debug
 INIT_DIR = $(SRC_DIR)/init
+THREADS_DIR = $(SRC_DIR)/threads
 
 SRC_UTILS = $(UTILS_DIR)/ft_atoi_ul.c \
 			$(UTILS_DIR)/ft_putstr.c \
@@ -20,14 +21,19 @@ SRC_DEBUG = $(DEBUG_DIR)/colors.c \
 			$(DEBUG_DIR)/table.c \
 			$(DEBUG_DIR)/philo.c 
 
+SRC_THREADS = $(THREADS_DIR)/action.c \
+			$(THREADS_DIR)/create.c \
+			$(THREADS_DIR)/end.c \
+			$(THREADS_DIR)/routine.c \
+
 SRC = $(SRC_DIR)/main.c \
 		$(SRC_DIR)/forks.c \
-		$(SRC_DIR)/threads.c \
 		$(SRC_DIR)/sleep.c \
 		$(SRC_UTILS) \
 		$(SRC_CHECKS) \
 		$(SRC_DEBUG) \
 		$(SRC_INIT) \
+		$(SRC_THREADS) 
 
 ALLDIR = $(OBJ_DIR) \
 		$(OBJ_DIR)$(SRC_DIR) \
@@ -35,6 +41,7 @@ ALLDIR = $(OBJ_DIR) \
 		$(OBJ_DIR)$(CHECKS_DIR) \
 		$(OBJ_DIR)$(DEBUG_DIR) \
 		$(OBJ_DIR)$(INIT_DIR) \
+		$(OBJ_DIR)$(THREADS_DIR) 
 
 OBJ_DIR = ./obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)

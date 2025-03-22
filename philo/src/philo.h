@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/21 15:56:14 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:06:08 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ typedef enum e_bool {
 	TRUE
 } t_bool;
 
-typedef enum e_status {
+typedef enum e_thread_status {
 	THREAD_SUCCESS,
 	THREAD_DEAD,
 	THREAD_END
-} t_status;
+} t_thread_status;
 
 typedef enum e_action {
 	SLEEP,
@@ -88,7 +88,12 @@ void	free_table(t_table *table);
 void	add_start_delay_philos(t_philo **philos);
 void	create_threads(t_philo **philos);
 void	join_threads(t_philo **philos, t_table *table);
-
+void	*routine(void	*philo_void);
+t_bool	simulation_has_ended(t_table *table);
+t_bool	check_philos_have_eaten(t_table *table);
+void	print_message(t_action state, t_philo *philo);
+t_thread_status	action(unsigned long action_time, t_action action, t_philo *philo);
+t_thread_status	eat(t_philo *philo);
 // DEBUG
 void	cyan();
 void	black();
@@ -106,7 +111,7 @@ t_bool	is_last_philo(t_philo **philos, int i);
 
 
 // sleep
-t_status	sleep_and_check_dead(long time_action, t_philo *philo, t_bool check_dead);
+t_thread_status	sleep_and_check_dead(long time_action, t_philo *philo, t_bool check_dead);
 
 // CHECKS
 t_bool	is_in_range_of_unsigned_int(char *str);

@@ -6,13 +6,13 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:05:59 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/21 14:47:02 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/22 14:08:45 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-t_philo *init_philo(t_table *table, char **argv, int index)
+t_philo	*init_philo(t_table *table, char **argv, int index)
 {
 	t_philo	*philo;
 
@@ -32,13 +32,13 @@ t_philo *init_philo(t_table *table, char **argv, int index)
 	return (philo);
 }
 
-t_philo **init_philos(t_table *table, char **argv)
+t_philo	**init_philos(t_table *table, char **argv)
 {
 	unsigned int	i;
 	t_philo			**philos;
-	
+
 	i = 0;
-	philos = malloc((table->number_of_philo + 1) * sizeof(t_philo*));
+	philos = malloc((table->number_of_philo + 1) * sizeof(t_philo *));
 	while (i < table->number_of_philo)
 	{
 		philos[i] = init_philo(table, argv, i);

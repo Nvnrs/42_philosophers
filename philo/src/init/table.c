@@ -6,13 +6,13 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:58:51 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/21 15:29:50 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/22 14:07:54 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-pthread_mutex_t	*init_fork()
+pthread_mutex_t	*init_fork(void)
 {
 	pthread_mutex_t	*fork;
 
@@ -36,6 +36,7 @@ void	free_forks(pthread_mutex_t **forks)
 	}
 	free(forks);
 }
+
 void	free_table(t_table *table)
 {
 	free_forks(table->forks);
@@ -49,7 +50,7 @@ pthread_mutex_t	**init_forks(t_table *table)
 	pthread_mutex_t	*fork;
 
 	i = 0;
-	forks = malloc((table->number_of_philo + 1) * sizeof(pthread_mutex_t*));
+	forks = malloc((table->number_of_philo + 1) * sizeof(pthread_mutex_t *));
 	if (forks == NULL)
 		return (NULL);
 	while (i < table->number_of_philo)

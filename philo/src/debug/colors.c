@@ -6,23 +6,23 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:55:43 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/21 14:26:30 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/22 14:06:43 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void cyan()
+void	cyan(void)
 {
-  printf("\033[0;36m");
+	printf("\033[0;36m");
 }
 
-void black() 
+void	black(void)
 {
-  printf("\033[0;30m");
+	printf("\033[0;30m");
 }
 
-void reset()
+void	reset(void)
 {
-  printf("\033[0m");
+	printf("\033[0m");
 }

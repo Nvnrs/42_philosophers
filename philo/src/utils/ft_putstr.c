@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:18:50 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/17 17:19:01 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/22 14:10:04 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@ void	ft_putstr_fd(char *str, int fd)
 	{
 		write(fd, &str[i], 1);
 		i++;
-	}	
+	}
 }
