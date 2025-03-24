@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/22 17:06:08 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:06:42 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,31 +49,26 @@ typedef struct s_table
 {
 	pthread_mutex_t	**forks;
 	unsigned int	number_of_philo;
-	int	required_eats_per_philo;
+	int				required_eats_per_philo;
 	unsigned long	time_at_start;
+	t_bool			end_simulation;
+	int 			count_eat;
 	pthread_mutex_t write_access;
 	pthread_mutex_t mutex_end;
-	t_bool			end_simulation;
-	// addons tests
-	int 			count_eat;
 	pthread_mutex_t mutex_count_eat;
 }	t_table;
 
 typedef struct s_philo
 {
 	pthread_t		thread;
-	// t_bool			end__thread;
 	unsigned int	start_delay;
 	unsigned long	time_last_eat;
 	unsigned int	id;
-	pthread_mutex_t *fork_left;
-	pthread_mutex_t *fork_right;
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
-	int	count_eat;
-	pthread_mutex_t mutex_count_eat;
-	int				state;
+	pthread_mutex_t *fork_left;
+	pthread_mutex_t *fork_right;
 	t_table			*table;
 }	t_philo;
 
@@ -94,6 +89,9 @@ t_bool	check_philos_have_eaten(t_table *table);
 void	print_message(t_action state, t_philo *philo);
 t_thread_status	action(unsigned long action_time, t_action action, t_philo *philo);
 t_thread_status	eat(t_philo *philo);
+t_thread_status	take_fork_left(t_philo *philo);
+t_thread_status	take_fork_right(t_philo *philo);
+
 // DEBUG
 void	cyan();
 void	black();

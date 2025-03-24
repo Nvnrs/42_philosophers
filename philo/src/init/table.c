@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:58:51 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/22 14:07:54 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:04:36 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ void	free_forks(pthread_mutex_t **forks)
 void	free_table(t_table *table)
 {
 	free_forks(table->forks);
+	pthread_mutex_destroy(&table->mutex_count_eat);
+	pthread_mutex_destroy(&table->mutex_end);
+	pthread_mutex_destroy(&table->write_access);
 	free(table);
 }
 
@@ -80,5 +83,6 @@ t_table	*init_table(int argc, char **argv)
 	table->count_eat = 0;
 	pthread_mutex_init(&table->write_access, NULL);
 	pthread_mutex_init(&table->mutex_count_eat, NULL);
+	pthread_mutex_init(&table->mutex_end, NULL);
 	return (table);
 }

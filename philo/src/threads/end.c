@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:45:20 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/22 17:14:40 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:07:32 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ t_bool	simulation_has_ended(t_table *table)
 
 void	join_threads(t_philo **philos, t_table *table)
 {
-	int	i;
+	int		i;
 	t_thread_status	*return_val;
 
 	i = 0;
 	while (philos[i])
 	{
 		pthread_join(philos[i]->thread, (void **)&return_val);
-		if (*return_val == THREAD_DEAD)
+		if (*return_val == THREAD_DEAD && !simulation_has_ended(table))
 		{
 			pthread_mutex_lock(&table->mutex_end);
 			table->end_simulation = TRUE;

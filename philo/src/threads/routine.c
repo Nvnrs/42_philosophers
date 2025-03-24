@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:47:21 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/22 17:16:28 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:57:04 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,19 @@ t_thread_status	routine_cases(int  status, t_philo *philo)
 {
 	status = action(0, THINK, philo);
 	if (status == THREAD_SUCCESS && philo->fork_left != NULL)
-		status = action(0, FORK, philo);
+		status = take_fork_left(philo);
 	if (status == THREAD_SUCCESS && philo->fork_right != NULL)
-		status = action(0, FORK, philo);
-	if (status == THREAD_SUCCESS &&  philo->fork_left && philo->fork_right)
-		status = eat(philo);
-	if (status == THREAD_SUCCESS &&  philo->fork_left && philo->fork_right)
-		status = action(philo->time_to_sleep, SLEEP, philo);
-	if (philo->fork_left == NULL || philo->fork_right == NULL)
+		status = take_fork_right(philo);
+	if (philo->fork_left == NULL)
+	{
+		pthread_mutex_unlock(philo->fork_right);
 		status = THREAD_DEAD;
-	// print_table(philo->table);
+		return (status);
+	}	
+	if (status == THREAD_SUCCESS)
+		status = eat(philo);
+	if (status == THREAD_SUCCESS)
+		status = action(philo->time_to_sleep, SLEEP, philo);
 	return (status);
 }
 
@@ -40,14 +43,6 @@ void	*routine(void	*philo_void)
 	usleep(philo->start_delay * 1000);
 	philo->time_last_eat = get_time_in_milliescondes();
 	while (*status == THREAD_SUCCESS)
-	{
 		*status = routine_cases(*status, philo);
-	}
-	if (*status != THREAD_SUCCESS)
-	{
-		if (simulation_has_ended(philo->table)
-		|| check_philos_have_eaten(philo->table))
-			*status = THREAD_END;
-	}
 	return (status);
 }
