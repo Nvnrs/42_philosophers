@@ -46,7 +46,7 @@ ALLDIR = $(OBJ_DIR) \
 OBJ_DIR = ./obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)
 CC = cc
-CFLAGS += -Wall -Wextra -Werror -g -Isrc -fsanitize=address
+CFLAGS += -Wall -Wextra -Werror -g -Isrc -fsanitize=thread
 NAME = philo
 
 all : $(NAME)

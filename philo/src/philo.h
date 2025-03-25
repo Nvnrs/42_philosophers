@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/25 10:34:37 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/25 10:37:49 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_thread_status	eat(t_philo *philo);
 t_thread_status	take_fork_left(t_philo *philo);
 t_thread_status	take_fork_right(t_philo *philo);
 t_thread_status	sleep_and_check_dead(long time_action,
-					t_philo *philo, t_bool check_dead);
+					t_philo *philo);
 
 // DEBUG
 void			cyan(void);
