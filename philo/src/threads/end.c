@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:45:20 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/25 13:19:13 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:23:57 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ t_bool	check_philos_have_eaten(t_table *table)
 	have_eaten = FALSE;
 	total_eats = (long)table->required_eats_per_philo
 		* (long)table->number_of_philo;
-	printf("total eat %ld\n", total_eats);
-	print_table(table);
 	if (table->count_eat >= total_eats)
 		have_eaten = TRUE;
 	pthread_mutex_unlock(&table->mutex_count_eat);
