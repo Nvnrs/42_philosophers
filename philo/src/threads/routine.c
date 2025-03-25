@@ -6,13 +6,13 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:47:21 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/24 17:57:04 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/25 10:10:42 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-t_thread_status	routine_cases(int  status, t_philo *philo)
+t_thread_status	routine_cases(int status, t_philo *philo)
 {
 	status = action(0, THINK, philo);
 	if (status == THREAD_SUCCESS && philo->fork_left != NULL)
@@ -24,7 +24,7 @@ t_thread_status	routine_cases(int  status, t_philo *philo)
 		pthread_mutex_unlock(philo->fork_right);
 		status = THREAD_DEAD;
 		return (status);
-	}	
+	}
 	if (status == THREAD_SUCCESS)
 		status = eat(philo);
 	if (status == THREAD_SUCCESS)

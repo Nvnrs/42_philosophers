@@ -25,10 +25,10 @@ SRC_THREADS = $(THREADS_DIR)/action.c \
 			$(THREADS_DIR)/create.c \
 			$(THREADS_DIR)/end.c \
 			$(THREADS_DIR)/routine.c \
+			$(THREADS_DIR)/sleep.c \
+			$(THREADS_DIR)/forks.c \
 
 SRC = $(SRC_DIR)/main.c \
-		$(SRC_DIR)/forks.c \
-		$(SRC_DIR)/sleep.c \
 		$(SRC_UTILS) \
 		$(SRC_CHECKS) \
 		$(SRC_DEBUG) \

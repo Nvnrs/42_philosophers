@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:45:20 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/24 18:07:32 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/25 10:07:23 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_bool	check_philos_have_eaten(t_table *table)
 	return (have_eaten);
 }
 
-
 t_bool	simulation_has_ended(t_table *table)
 {
 	t_bool	end;
@@ -41,10 +40,9 @@ t_bool	simulation_has_ended(t_table *table)
 	return (end);
 }
 
-
 void	join_threads(t_philo **philos, t_table *table)
 {
-	int		i;
+	int				i;
 	t_thread_status	*return_val;
 
 	i = 0;
