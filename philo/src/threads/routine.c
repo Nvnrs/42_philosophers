@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:47:21 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/25 10:10:42 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:39:31 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	*routine(void	*philo_void)
 	*status = THREAD_SUCCESS;
 	usleep(philo->start_delay * 1000);
 	philo->time_last_eat = get_time_in_milliescondes();
+	if (philo->table->required_eats_per_philo == 0)
+		*status = THREAD_END;
 	while (*status == THREAD_SUCCESS)
 		*status = routine_cases(*status, philo);
 	return (status);
