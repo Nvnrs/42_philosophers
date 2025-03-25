@@ -6,14 +6,14 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/25 10:37:49 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:01:49 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# define MAX_UI 4294967295
+# define MAX_INT 2147483647
 # define EAT_MESSAGE "%lu %d is eating\n"
 # define SLEEP_MESSAGE "%lu %d is sleeping\n"
 # define THINK_MESSAGE "%lu %d is thinking\n"
@@ -55,7 +55,7 @@ typedef struct s_table
 	int				required_eats_per_philo;
 	unsigned long	time_at_start;
 	t_bool			end_simulation;
-	int				count_eat;
+	long			count_eat;
 	pthread_mutex_t	write_access;
 	pthread_mutex_t	mutex_end;
 	pthread_mutex_t	mutex_count_eat;

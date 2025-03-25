@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:17:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/22 14:04:54 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:40:38 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_bool	all_args_are_valid(char **argv)
 		if (!is_in_range_of_unsigned_int(argv[i]))
 		{
 			ft_putstr_fd(
-				"The number must be define between 0 and 4294967295\n", 2);
+				"The number must be define between 0 and 2147483647\n", 2);
 			return (FALSE);
 		}
 		i++;

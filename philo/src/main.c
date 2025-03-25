@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:14 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/25 10:26:30 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:46:44 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int argc, char **argv)
 	assign_forks(table, philos);
 	create_threads(philos);
 	join_threads(philos, table);
+	print_table(table);
 	free_philos(philos);
 	free_table(table);
 	return (EXIT_SUCCESS);

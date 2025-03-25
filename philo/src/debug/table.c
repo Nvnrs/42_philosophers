@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:58:17 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/22 14:18:25 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:55:26 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_table(t_table *table)
 	printf("-> **forks (count): %d\n", len_tab((void **)table->forks));
 	printf("-> number_of_philo: %d\n", table->number_of_philo);
 	printf("-> require_eats_per_philo: %d\n", table->required_eats_per_philo);
-	printf("-> count_eat: %d\n", table->count_eat);
+	printf("-> count_eat: %ld\n", table->count_eat);
 	printf("-> time_at_start: %lu\n", table->time_at_start);
 	reset();
 }

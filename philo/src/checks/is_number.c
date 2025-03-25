@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:20:23 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/22 14:05:20 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:32:42 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_bool	is_in_range_of_unsigned_int(char *str)
 	unsigned long	nb;
 
 	nb = ft_atoi_ul(str);
-	if (nb > MAX_UI)
+	if (nb > MAX_INT)
 		return (FALSE);
 	return (TRUE);
 }
