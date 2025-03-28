@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/25 13:01:49 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:32:12 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_philo
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
+	pthread_mutex_t	mutex_last_eat;
 	pthread_mutex_t	*fork_left;
 	pthread_mutex_t	*fork_right;
 	t_table			*table;

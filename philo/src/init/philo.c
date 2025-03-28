@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:05:59 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/24 18:04:49 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:12:12 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_philo	*init_philo(t_table *table, char **argv, int index)
 	philo->time_to_eat = ft_atoi_ul(argv[3]);
 	philo->time_to_sleep = ft_atoi_ul(argv[4]);
 	philo->table = table;
+	pthread_mutex_init(&philo->mutex_last_eat, NULL);
 	return (philo);
 }
 
@@ -52,6 +53,7 @@ void	free_philos(t_philo **philos)
 	i = 0;
 	while (philos[i])
 	{
+		pthread_mutex_destroy(&philos[i]->mutex_last_eat);
 		free(philos[i]);
 		i++;
 	}

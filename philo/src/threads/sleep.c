@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:25:08 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/25 10:37:02 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:34:37 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ t_thread_status	sleep_and_check_dead(long time_action,
 	unsigned long	time_left_before_death;
 
 	actual_time = get_time_in_milliescondes();
+	pthread_mutex_lock(&philo->mutex_last_eat);
 	time_since_last_eat = (actual_time - philo->time_last_eat);
+	pthread_mutex_unlock(&philo->mutex_last_eat);
 	if (philo_is_dead_before_action(philo, time_since_last_eat))
 		return (THREAD_DEAD);
 	if (philo_is_dead_pending_action(philo, time_action, time_since_last_eat))
