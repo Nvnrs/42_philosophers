@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:42:49 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/28 12:45:47 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:32:19 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ void	add_start_delay_philos(t_philo **philos)
 		return ;
 	while (philos[i])
 	{
-		// if (is_last_philo(philos, i)
-		// 	&& len_tab((void **)philos) % 2 != 0)
-		// {
-		// 	philos[i]->start_delay = (philos[i]->time_to_eat * 1);
-		// }
 		if (i % 2 != 0)
 		{
 			philos[i]->start_delay = philos[i]->time_to_eat;

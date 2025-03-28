@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:47:21 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/28 16:11:47 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:32:26 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	*routine(void	*philo_void)
 	*status = THREAD_SUCCESS;
 	usleep(philo->start_delay * 1000);
 	pthread_mutex_lock(&philo->mutex_last_eat);
-	philo->time_last_eat = get_time_in_milliescondes();	
+	philo->time_last_eat = get_time_in_milliescondes();
 	pthread_mutex_unlock(&philo->mutex_last_eat);
 	if (philo->table->required_eats_per_philo == 0)
 		*status = THREAD_END;

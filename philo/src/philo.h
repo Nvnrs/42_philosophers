@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:44 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/27 15:32:12 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:30:50 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void			free_philos(t_philo **philos);
 void			free_table(t_table *table);
 
 // THREADS
+void			monitor(t_table *table, t_philo **philos);
 void			add_start_delay_philos(t_philo **philos);
 void			create_threads(t_philo **philos);
 void			join_threads(t_philo **philos, t_table *table);

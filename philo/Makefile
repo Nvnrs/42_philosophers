@@ -27,6 +27,7 @@ SRC_THREADS = $(THREADS_DIR)/action.c \
 			$(THREADS_DIR)/routine.c \
 			$(THREADS_DIR)/sleep.c \
 			$(THREADS_DIR)/forks.c \
+			$(THREADS_DIR)/monitor.c \
 
 SRC = $(SRC_DIR)/main.c \
 		$(SRC_UTILS) \
