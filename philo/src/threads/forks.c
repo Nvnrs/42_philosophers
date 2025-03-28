@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:40:29 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/28 13:06:54 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:01:57 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,31 @@ void	assign_forks(t_table *table, t_philo **philos)
 			printf("	fork_left : %d\n", i);
 			printf("	fork_right : %d\n", i+ 1);
 		}
+
+		// if (i % 2 == 0)
+		// {
+		// 	if (i == (len_tab((void **)philos) - 1))
+		// 	{
+		// 		philos[i]->fork_left = table->forks[i];
+		// 		philos[i]->fork_right = table->forks[0];
+		// 		printf("	fork_left : %d\n", i);
+		// 		printf("	fork_right : %d\n", 0);
+		// 	}
+		// 	else
+		// 	{
+		// 		philos[i]->fork_left = table->forks[i];
+		// 		philos[i]->fork_right = table->forks[i + 1];
+		// 		printf("	fork_left : %d\n", i);
+		// 		printf("	fork_right : %d\n", i + 1);
+		// 	}
+		// }
+		// else
+		// {
+		// 	philos[i]->fork_left = table->forks[i - 1];
+		// 	philos[i]->fork_right = table->forks[i];
+		// 	printf("	fork_left : %d\n", i - 1);
+		// 	printf("	fork_right : %d\n", i);
+		// }
 		i++;
 	}
 }

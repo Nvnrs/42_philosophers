@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:57:14 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/28 13:25:10 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:21:05 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	monitor(t_table *table, t_philo **philos)
 	unsigned long	time_since_last_eat;
 
 	i = 0;
-	while (1)
+	while (table->number_of_philo > 0)
 	{
 		pthread_mutex_lock(&philos[i]->mutex_last_eat);
 		time_last_eat = philos[i]->time_last_eat;
@@ -71,4 +71,3 @@ int	main(int argc, char **argv)
 	free_table(table);
 	return (EXIT_SUCCESS);
 }
-

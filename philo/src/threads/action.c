@@ -6,7 +6,7 @@
 /*   By: nveneros <nveneros@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:46:31 by nveneros          #+#    #+#             */
-/*   Updated: 2025/03/28 13:35:43 by nveneros         ###   ########.fr       */
+/*   Updated: 2025/03/28 14:07:21 by nveneros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ t_thread_status	eat(t_philo *philo)
 		pthread_mutex_unlock(philo->fork_right);
 		return (THREAD_END);
 	}
+	print_message(EAT, philo);
 	pthread_mutex_lock(&philo->mutex_last_eat);
 	philo->time_last_eat = get_time_in_milliescondes();
 	pthread_mutex_unlock(&philo->mutex_last_eat);
-	print_message(EAT, philo);
 	if (sleep_and_check_dead(philo->time_to_eat, philo) != THREAD_SUCCESS)
 	{
 		pthread_mutex_unlock(philo->fork_left);
